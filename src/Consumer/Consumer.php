@@ -17,8 +17,8 @@ abstract class Consumer
     private $rabbitConnection;
 
     /**
-     * Consumer constructor.
-     * @param AMQPStreamConnection $connection
+     * Consumer constructor
+     * @param AMQPStreamConnection $rabbitConnection
      */
     public function __construct(AMQPStreamConnection $rabbitConnection)
     {
@@ -32,7 +32,7 @@ abstract class Consumer
     {
         try {
             $channel = $this->rabbitConnection->channel();
-            $channel->queue_declare('payway_procesar', false, true, false, false);
+            $channel->queue_declare($queue, false, true, false, false);
             echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
             $channel->basic_qos(null, 1, null);
             $channel->basic_consume($queue, '', false, false, false, false, array($this, "process"));
