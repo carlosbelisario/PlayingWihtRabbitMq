@@ -27,14 +27,17 @@ abstract class Consumer
 
     /**
      * @param string $queue
+     * @param string $size
+     * @param int $count
+     * @param bool global 
      */
-    public function run($queue)
+    public function run($queue, $size = null, $count = 1, $global = null)
     {
         try {
             $channel = $this->rabbitConnection->channel();
             $channel->queue_declare($queue, false, true, false, false);
             echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
-            $channel->basic_qos(null, 1, null);
+            $channel->basic_qos($size, $count, $global);
             $channel->basic_consume($queue, '', false, false, false, false, array($this, "process"));
 
             while(count($channel->callbacks)) {
