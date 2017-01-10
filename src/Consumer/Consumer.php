@@ -17,7 +17,7 @@ abstract class Consumer
     private $rabbitConnection;
 
     /**
-     * Worker constructor.
+     * Consumer constructor.
      * @param AMQPStreamConnection $connection
      */
     public function __construct(AMQPStreamConnection $rabbitConnection)
