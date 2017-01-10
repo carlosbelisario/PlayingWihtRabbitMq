@@ -2,6 +2,7 @@
 
 namespace PlayingWihtRabbitMq\Consumer;
 
+use PlayingWihtRabbitMq\Consumer\Consumer;
 use PhpAmqpLib\Message\AMQPMessage;
 
 /**
