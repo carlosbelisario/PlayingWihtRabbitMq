@@ -48,8 +48,8 @@ class Publisher
         TransportInterface $transport,
         $messagePriority = 0,
         $deliveryMode = AMQPMessage::DELIVERY_MODE_PERSISTENT
-    ) {        
-       // try {
+    ) {
+        try {
             $channel = $this->rabbitConnection->channel();
             $channel->queue_declare(
                 $queue->name,
@@ -67,8 +67,8 @@ class Publisher
             $this->rabbitConnection->close();
             
             return true;
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new PublisherException($e->getMessage(), $e->getCode());
-        }*/
+        }
     }
 }
