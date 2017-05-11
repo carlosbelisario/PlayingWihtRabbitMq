@@ -1,8 +1,8 @@
 <?php 
 
-namespace PlayingWihtRabbitMq\Consumer;
+namespace PlayingWithRabbitMq\Consumer;
 
-use PlayingWihtRabbitMq\Consumer\Consumer;
+use PlayingWithRabbitMq\Consumer\Consumer;
 use PhpAmqpLib\Message\AMQPMessage;
 
 /**

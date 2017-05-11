@@ -1,6 +1,6 @@
 <?php
 
-namespace PlayingWihtRabbitMq\Consumer;
+namespace PlayingWithRabbitMq\Consumer;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
