@@ -4,6 +4,7 @@ namespace PlayingWithRabbitMq\Consumer;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use PlayingWithRabbitMq\Exception\ConsumerException;
 
 /**
  * Class Consumer
@@ -35,8 +36,7 @@ abstract class Consumer
     {
         try {
             $channel = $this->rabbitConnection->channel();
-            $channel->queue_declare($queue, false, true, false, false);
-            echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
+            $channel->queue_declare($queue, false, true, false, false);            
             $channel->basic_qos($size, $count, $global);
             $channel->basic_consume($queue, '', false, false, false, false, array($this, "process"));
 
@@ -45,9 +45,8 @@ abstract class Consumer
             }
             $channel->close();
             $this->rabbitConnection->close();
-        } catch (\Exception $e) {
-            //manage the exception
-            echo $e->getMessage();
+        } catch (\Exception $e) {            
+            throw new ConsumerException($e->getMessage(), $e->getCode());            
         }
     }
 
