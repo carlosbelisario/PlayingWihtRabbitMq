@@ -4,6 +4,7 @@ namespace Tests\PlayingWithRabbitMq\Publisher;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Exception\AMQPRuntimeException;
 use PhpAmqpLib\Message\AMQPMessage;
 use PlayingWithRabbitMq\MessageFactory;
 use PlayingWithRabbitMq\Publisher\Publisher;
@@ -63,7 +64,24 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         ;
         $queue = new QueueAMQ('test');
         $transport = $this->prophesize(TransportInterface::class);
-        $transport->move()->willReturn(self::MESSAGE);
+        $transport->transport()->willReturn(self::MESSAGE);
+        $publisher = new Publisher($rabbitConnection->reveal(), $messageFactory->reveal());
+        $this->assertTrue($publisher->publish($queue, $transport->reveal()));
+    }
+
+    /**
+     * @expectedException \PlayingWithRabbitMq\Exception\PublisherException
+     */
+    public function testPublishNotOk()
+    {
+
+        $rabbitConnection = $this->prophesize(AMQPStreamConnection::class);
+        $rabbitConnection->channel()->willThrow(new AMQPRuntimeException('test fail'));
+
+        $messageFactory = $this->prophesize(MessageFactory::class);
+        $queue = new QueueAMQ('test');
+        $transport = $this->prophesize(TransportInterface::class);
+        $transport->transport()->willReturn(self::MESSAGE);
         $publisher = new Publisher($rabbitConnection->reveal(), $messageFactory->reveal());
         $this->assertTrue($publisher->publish($queue, $transport->reveal()));
     }

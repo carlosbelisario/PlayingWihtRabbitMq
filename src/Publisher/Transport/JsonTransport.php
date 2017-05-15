@@ -28,13 +28,13 @@ class JsonTransport implements TransportInterface
      * @return string 
      * @throws JsonTransportException
      */
-    public function move()
+    public function transport()
     {
         if (!$this->isValid()) {
-            throw new JsonTransportException('the data pass should be a resource');
+            throw new JsonTransportException('the data pass should be a valid json or a resource');
         }
-
-        return $this->toJson($this->data);
+        
+        return is_string($this->data) ? $this->data : $this->toJson($this->data);
     }
 
     /**
@@ -42,7 +42,7 @@ class JsonTransport implements TransportInterface
      */
     private function isValid()
     {
-        json_decode($this->data);
+        @json_decode($this->data);
         if (json_last_error() === JSON_ERROR_NONE) {
             return true;
         }

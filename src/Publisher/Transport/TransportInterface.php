@@ -8,5 +8,5 @@ namespace PlayingWithRabbitMq\Publisher\Transport;
  */
 interface TransportInterface
 {
-    public function move();
+    public function transport();
 }

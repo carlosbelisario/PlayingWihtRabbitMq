@@ -16,7 +16,7 @@ class MessageFactory
 {
     public function create(TransportInterface $transport, $deliveryMode, $messagePriority)
     {
-        return new AMQPMessage($transport->move(), $this->getMessageProperty($deliveryMode, $messagePriority));
+        return new AMQPMessage($transport->transport(), $this->getMessageProperty($deliveryMode, $messagePriority));
     }
 
     /**

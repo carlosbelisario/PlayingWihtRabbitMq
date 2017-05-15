@@ -19,8 +19,8 @@ class RawTransport implements TransportInterface
         $this->raw = $raw;
     }
 
-    public function move()
-    {
+    public function transport()
+    {        
         return $this->raw;
     }
 }
